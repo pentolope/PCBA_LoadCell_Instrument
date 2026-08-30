@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "repo": "PCBA_LoadCell_Instrument",
+  "board_id": "loadcell_instrument",
+  "benchmark_id": 12,
+  "title": "Four-Channel Load-Cell Instrument",
+  "description": "The split between what BRIEF.md fixes and what it leaves open. Every fixed_requirements entry carries the verbatim brief text that substantiates it, bound to the recorded brief digest. An open_decisions entry is a choice for the design agent: record it in 'chosen' with 'rationale', and never move it into fixed_requirements. Missing details are design freedom, not permission to fabricate unstated user requirements.",
+  "brief": {
+    "path": "../BRIEF.md",
+    "sha256": "4d5d1134eda9c434c32c91b068ed5056ff2eec77043006e39459295ed1f4e00c",
+    "authority": "supplied by the benchmark; authoritative; preserved byte for byte and never edited"
+  },
+  "metadata": {
+    "category": "precision-analog",
+    "difficulty": 3,
+    "detail": 2,
+    "layers": "4",
+    "stressors": [
+      "24-bit ADC",
+      "bridge excitation",
+      "low-noise reference",
+      "connector symmetry"
+    ]
+  },
+  "derivation": {
+    "method": "BRIEF.md was read and split; no design decision was taken. Every fixed_requirements entry, and every spec-table row sourced from the brief, carries a quotation that was checked by literal substring match against the brief bytes digested above. The build refuses to emit this file if any quotation is not found.",
+    "quotations_verified": 21,
+    "review": "two rounds of adversarial review against the brief, looking for invented requirements, lost requirements, evidence supporting a weaker claim than the one made beside it, and worksheet questions that presuppose their own answer"
+  },
+  "fixed_requirements": [
+    {
+      "id": "REQ-01",
+      "requirement": "The board shall measure four channels of load cell.",
+      "brief_evidence": "Create a four-channel load-cell measurement board for full Wheatstone-bridge sensors."
+    },
+    {
+      "id": "REQ-02",
+      "requirement": "The sensors are full Wheatstone-bridge type; the front end must interface to full bridges.",
+      "brief_evidence": "load-cell measurement board for full Wheatstone-bridge sensors. Provide stable bridge excitation"
+    },
+    {
+      "id": "REQ-03",
+      "requirement": "The board shall provide stable bridge excitation.",
+      "brief_evidence": "Provide stable bridge excitation, simultaneous or multiplexed high-resolution conversion"
+    },
+    {
+      "id": "REQ-04",
+      "requirement": "The board shall perform high-resolution conversion of the bridge signals; the brief permits either a simultaneous or a multiplexed channel architecture, and the design must choose its approach and justify it.",
+      "brief_evidence": "simultaneous or multiplexed high-resolution conversion, calibration storage"
+    },
+    {
+      "id": "REQ-05",
+      "requirement": "The board shall provide calibration storage.",
+      "brief_evidence": "calibration storage, and a USB or Ethernet host interface."
+    },
+    {
+      "id": "REQ-06",
+      "requirement": "The board shall provide a host interface drawn from the two the brief names, USB or Ethernet. The brief asks for one and selects neither; it says nothing about carrying more than one.",
+      "brief_evidence": "and a USB or Ethernet host interface. The primary challenge is preserving microvolt-level signal integrity"
+    },
+    {
+      "id": "REQ-07",
+      "requirement": "The design shall preserve microvolt-level signal integrity in the presence of on-board digital logic and power conversion; this is stated as the primary challenge, so the design must show how it is addressed rather than only claim it.",
+      "brief_evidence": "The primary challenge is preserving microvolt-level signal integrity in the presence of digital logic and power conversion."
+    },
+    {
+      "id": "REQ-08",
+      "requirement": "The design agent shall select the architecture and the parts - this selection is a deliverable of the design, not a given.",
+      "brief_evidence": "Choose the architecture and parts, and document the analog grounding"
+    },
+    {
+      "id": "REQ-09",
+      "requirement": "The analog grounding and shielding strategy shall be documented as an explicit written deliverable.",
+      "brief_evidence": "Choose the architecture and parts, and document the analog grounding and shielding strategy."
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Where the brief is silent, the design agent shall make and document reasonable engineering decisions rather than invent hidden user requirements.",
+      "brief_evidence": "where the brief leaves choices open, make and document reasonable engineering decisions rather than inventing hidden user requirements."
+    },
+    {
+      "id": "REQ-11",
+      "requirement": "Stated brief requirements are authoritative and must not be diluted or overridden by design convenience.",
+      "brief_evidence": "Treat stated requirements as authoritative; where the brief leaves choices open"
+    },
+    {
+      "id": "REQ-12",
+      "requirement": "This repository shall remain a consumer of the shared PCBA_AutoDesignAndTest toolkit; board-specific logic must not be pushed into the toolkit.",
+      "brief_evidence": "The repository should remain a consumer of the shared `PCBA_AutoDesignAndTest` toolkit rather than accumulating board-specific logic in the toolkit."
+    }
+  ],
+  "open_decisions": [
+    {
+      "id": "OPEN-01",
+      "decision": "Which host interface the board carries from the two the brief names, and what physical connector and protocol stack it uses.",
+      "why_open": "The brief offers the two as alternatives ('a USB or Ethernet host interface') and selects neither; nothing in the brief or metadata favours one over the other. It asks for one interface and does not address carrying more than one, so going beyond what it asks is itself a decision that needs recording.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-02",
+      "decision": "Whether conversion is simultaneous (a converter per channel), multiplexed (shared converter with channel switching), or a hybrid of the two, and the resulting per-channel throughput.",
+      "why_open": "The brief explicitly allows both named approaches - 'simultaneous or multiplexed' - and states no sample rate, settling or channel-skew requirement to force the choice.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-03",
+      "decision": "The converter itself: resolution and architecture, integrated PGA versus a discrete gain stage ahead of it, and input structure.",
+      "why_open": "The brief says only 'high-resolution conversion' and names neither a part nor a converter architecture; '24-bit ADC' appears in the metadata stressor list as a difficulty driver, not as a specified component.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-04",
+      "decision": "The excitation scheme: DC versus chopped/AC excitation, one excitation source shared across bridges versus per-channel sources, current drive versus voltage drive, and whether remote sense (4-wire versus 6-wire) is supported.",
+      "why_open": "The brief requires excitation to be 'stable' but fixes no level, topology, load or wiring scheme; bridge resistance and cable length are unstated.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-05",
+      "decision": "The reference strategy: ratiometric operation (excitation and converter reference derived from one source) versus an absolute reference, plus reference filtering and buffering.",
+      "why_open": "'low-noise reference' is a metadata stressor naming a problem area; the brief specifies no reference part, voltage, noise figure or drift limit.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-06",
+      "decision": "What digital controller the board carries - MCU, FPGA, or a fixed-function interface bridge - and its clocking.",
+      "why_open": "The brief implies digital logic by requiring a host interface and calibration storage, but never names a controller class, vendor or capability.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-07",
+      "decision": "The calibration storage medium (discrete nonvolatile memory versus controller-internal), its capacity, and the per-channel calibration data model.",
+      "why_open": "The brief requires 'calibration storage' and stops there - no format, no coefficient set, no capacity, no retention or endurance target.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-08",
+      "decision": "Power input: connector, input voltage range, self-powered versus bus-powered versus Power-over-Ethernet, and the regulation chain (switching, linear, or hybrid) that feeds the analog rails.",
+      "why_open": "The brief is silent on power entirely; it only flags 'power conversion' as a noise source the design must live with.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-09",
+      "decision": "Whether any galvanic isolation exists - between channels, between the analog front end and the digital domain, or on the host interface - and where the isolation barrier sits.",
+      "why_open": "The brief never mentions isolation, ground potential differences, or common-mode range between sensor cables.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-10",
+      "decision": "Sensor connector family, pitch, pin count and pinout, and whether cable shields land on a dedicated pin.",
+      "why_open": "No connector is named. 'connector symmetry' is a metadata stressor about how the four identical channels are arranged, not a specification of a part.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-11",
+      "decision": "How channel symmetry is actually realised: mirrored versus translated placement, matched trace lengths and impedances, matched thermal environments, and matched component tolerance grades across the four channels.",
+      "why_open": "The brief requires four channels but says nothing about matching, channel-to-channel offset, gain error, or crosstalk limits.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-12",
+      "decision": "Stackup detail: the actual layer count and per-layer assignment, whether analog and digital returns share one uninterrupted plane or are partitioned, copper weights, and controlled impedance if the chosen host interface needs it.",
+      "why_open": "The brief's header calls 4 a 'Likely layer count' and metadata.json records layers as \"4\" without stating it as a constraint; the brief specifies no stackup, plane strategy or impedance target - it only demands that the resulting grounding strategy be documented.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-13",
+      "decision": "The shielding approach: cable-shield termination point and method, guard rings or driven guards around high-impedance nodes, board-level shield cans, and chassis/earth bonding.",
+      "why_open": "The brief requires the shielding strategy to be documented but prescribes none of its content.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-14",
+      "decision": "Input protection strategy for sensor ports and the host port - ESD, overvoltage, miswiring/reverse-connection - and how protection components are kept from degrading the microvolt signal path.",
+      "why_open": "The brief names no environment, no ESD class and no fault conditions; protection is entirely undefined.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-15",
+      "decision": "Performance targets: full-scale input range, sensitivity assumed for the bridges, output data rate, noise-free or effective resolution, the measurement bandwidth these are quoted over, and gain and offset drift over temperature.",
+      "why_open": "The brief gives only the qualitative phrases 'microvolt-level signal integrity' and 'high-resolution' - no numbers of any kind are stated.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-16",
+      "decision": "Input filtering: EMI/RF filtering at the connector, anti-alias filtering ahead of the converter, and the digital filter or notch configuration for mains rejection.",
+      "why_open": "The brief specifies no bandwidth, no line-frequency rejection requirement and no EMC environment.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-17",
+      "decision": "Board outline, dimensions, mounting hole pattern, connector edge placement, and whether the board targets an enclosure, DIN rail, rack or open-frame use.",
+      "why_open": "The brief states no mechanical constraint at all.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-18",
+      "decision": "Test and bring-up provisions: test points, shunt-calibration or self-test injection, indicator LEDs, programming/debug access, and what the production test actually measures.",
+      "why_open": "The brief describes no test, service or manufacturing-verification requirement.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-19",
+      "decision": "Host-side behaviour: command set, streaming versus polled data delivery, timestamping, and whether stored calibration is applied on-board or on the host.",
+      "why_open": "The brief names an interface but defines no protocol, data format or division of processing.",
+      "chosen": null,
+      "rationale": null
+    },
+    {
+      "id": "OPEN-20",
+      "decision": "Fabrication and assembly constraints: fabricator and its capability limits, single- versus double-sided assembly, package/footprint restrictions, and part-availability sourcing.",
+      "why_open": "The brief sets no process, cost, volume or supply-chain constraint; only the toolkit-consumer rule is stated.",
+      "chosen": null,
+      "rationale": null
+    }
+  ]
+}
